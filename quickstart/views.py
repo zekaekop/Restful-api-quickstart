@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from django.contrib.auth.models import Group, User
 from rest_framework import permissions, viewsets
-from quickstart.serializers import UserSerializers, GroupSerializers
+from quickstart.serializers import UserSerializer, GroupSerializers
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by("-date_joined")
-    serializer_class = UserSerializers
+    serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 class GroupViewSet(viewsets.ModelViewSet):
