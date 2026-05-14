@@ -23,7 +23,7 @@ class SnippetSerializers(serializers.Serializer):
         return instance
 
 # This is an easier way to do what i did manually above but it gives less control
-# class SnippetSerializers(serializers.HyperlinkedModelSerializer):
+# class SnippetSerializers(serializers.ModelSerializer):
 #     class Meta:
 #         model = Snippet
 #         fields = ['id', 'created_date', 'title', 'code', 'linenos', 'language', 'style']
