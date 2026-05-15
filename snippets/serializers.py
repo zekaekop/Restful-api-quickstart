@@ -27,13 +27,17 @@ from snippets.models import Snippet, LANGUAGE_CHOICES, STYLE_CHOICES
 
 ## This is an easier way to do what i did manually above but it gives less control
 
-class UserSerializer(serializers.ModelSerializer):
-    snippets = serializers.PrimaryKeyRelatedField(many=True, queryset=Snippet.objects.all())
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    
+    snippets = serializers.HyperlinkedIdentityField(many=True, view_name="snippet-detail", read_only=True)
     class Meta:
         model = User
-        fields = ['id', 'username', 'snippets']
+        fields = ['url', 'id', 'username', 'snippets']
 
-class SnippetSerializer(serializers.ModelSerializer):
+class SnippetSerializer(serializers.HyperlinkedModelSerializer):
+    owner = serializers.ReadOnlyField(source="owner.username")
+    highlight = serializers.HyperlinkedIdentityField(view_name="snippet-highlight", format="html")
+
     class Meta:
         model = Snippet
-        fields = ['id', 'created_date', 'title', 'code', 'linenos', 'language', 'style']
+        fields = ['url', 'id', 'highlight', 'created_date', 'title', 'code', 'linenos', 'language', 'style', 'owner']
